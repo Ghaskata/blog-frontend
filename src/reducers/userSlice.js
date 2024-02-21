@@ -9,6 +9,9 @@ const userSlice = createSlice({
     addChannel: (state, action) => {
       console.log("addChannel >>> ", action);
     },
+    logout: (state, action) => {
+      state.data = {};
+    },
   },
   extraReducers: (bilder) => {},
 });
