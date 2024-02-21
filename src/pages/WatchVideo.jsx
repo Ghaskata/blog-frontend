@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
 import VideoDetails from "../components/VideoDetails";
@@ -8,16 +8,23 @@ import Loader from "../shared/loader";
 
 const WatchVideo = () => {
   const { videoId } = useParams();
-
+  const queryClient = useQueryClient();
   const {
     data: video,
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["video", { videoId }],
     queryFn: () => fetchVideoAndOwnerDetail(videoId),
   });
+
+  const handleInvalidateQuery = () => {
+    queryClient.invalidateQueries(["video", { videoId }]);
+    refetch();
+    console.log("aftre refetch >>>>>>>",video)
+  };
 
   if (isLoading) {
     return (
@@ -41,7 +48,10 @@ const WatchVideo = () => {
 
   return (
     <div className="w-full min-h-[calc(100vh-64px)] bg-black">
-      <VideoDetails video={video} />
+      <VideoDetails
+        video={video}
+        handleInvalidateQuery={handleInvalidateQuery}
+      />
     </div>
   );
 };
