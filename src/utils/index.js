@@ -12,8 +12,8 @@ export const authenticate = async (type, payload) => {
       },
     });
 
-    console.log("res >>> ", res);
-    console.log("res startus>>> ", res.status);
+    // console.log("res >>> ", res);
+    // console.log("res startus>>> ", res.status);
     toast.success(res);
 
     if (res) {
@@ -122,7 +122,7 @@ export const videoAddViewHistory = async (videoId) => {
       }
     );
     const updatedVideo = await res;
-    console.log("updated video >>>> ", updatedVideo);
+    // console.log("updated video >>>> ", updatedVideo);
     return updatedVideo;
   } catch (error) {
     console.log("erro>>", error);
@@ -160,7 +160,7 @@ export const toggleLikeToVideo = async (videoId) => {
         },
       }
     );
-    console.log(res);
+    // console.log(res);
     // const data = await res.data.data;
     // toast(res.data.message);
   } catch (error) {
@@ -226,10 +226,47 @@ export const fetchCommentLike = async (commentId) => {
       }
     );
     const data = await res.data.data;
-    // console.log("like data ?> ", data);
+    console.log("like data ?> ", data);
     return data;
   } catch (error) {
+    console.log("jdkamx,,,,,,,,,", error);
     toast.error("like errro ", error);
+    throw new Error(error);
+  }
+};
+
+export const toggleLikeToComment = async (commnetId) => {
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_BE}/likes/toggle/c/${commnetId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${CurrentUser.accessToken}`,
+        },
+      }
+    );
+    // console.log(res);
+    // const data = await res.data.data;
+    // toast(res.data.message);
+  } catch (error) {
+    toast.error("toggle like >> ");
+    throw new Error(error);
+  }
+};
+
+export const getHistory = async () => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_BE}/users/history`, {
+      headers: {
+        Authorization: `Bearer ${CurrentUser.accessToken}`,
+      },
+    });
+    const data = await res.data.data;
+    return data;
+  } catch (error) {
+    console.log("error of history >>> ", error);
+    toast.error("error of history", error);
     throw new Error(error);
   }
 };
