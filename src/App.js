@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Router from "./Router";
 import Auth from "./components/Auth";
 import { ToastContainer } from "react-toastify";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const App = () => {
   const { accessToken } = useSelector((state) => state.user.data);
-
+  
   return (
     <div>
       <ToastContainer
